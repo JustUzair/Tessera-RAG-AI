@@ -14,8 +14,15 @@ const EnvSchema = z.object({
   GEMINI_MODEL: z.string().optional(),
   GROQ_MODEL: z.string().optional(),
   RAG_MODEL_PROVIDER: z.enum(["gemini", "openai", "groq"]).default("gemini"),
-  MONGODB_ATLAS_URI: z.url().min(1),
-  MONGODB_NAME: z.string().min(1),
+  MONGODB_ATLAS_URI: z.url().min(1, "MongoDB URI is required"),
+  MONGODB_NAME: z.string().min(1, "MongoDB name is required"),
 });
 
-export const env = EnvSchema.parse(process.env);
+const parsed = EnvSchema.safeParse(process.env);
+
+if (!parsed.success) {
+  console.log("Incorrect .env configuration");
+  process.exit(1);
+}
+
+export const env = Object.freeze(parsed.data);
