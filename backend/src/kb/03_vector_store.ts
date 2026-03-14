@@ -17,7 +17,13 @@ let vectorStorePromise: Promise<MongoDBAtlasVectorSearch> | null = null;
 export async function getKbCollection(): Promise<MongoDBCollection> {
   if (!collectionPromise) {
     collectionPromise = (async () => {
-      return db.collection(env.MONGODB_COLLECTION_NAME, {});
+      const collection = db.collection(env.MONGODB_COLLECTION_NAME);
+      // ── Dedup lookup index ──
+      await collection.createIndex(
+        { "metadata.namespace": 1, "metadata.source": 1 },
+        { background: true },
+      );
+      return collection;
     })();
   }
   return collectionPromise;
@@ -35,6 +41,7 @@ export async function getKbCacheCollection(): Promise<MongoDBCollection> {
         },
         {
           unique: true,
+          sparse: true,
           background: true,
         },
       );

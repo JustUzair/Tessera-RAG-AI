@@ -10,7 +10,7 @@ export interface KBChunk {
 
 export type SupportedMime = "application/pdf" | "text/markdown" | "text/plain";
 export interface LoadFileArgs {
-  filePath: string;
+  buffer: Buffer;
   mimeType: SupportedMime;
   originalName: string;
 }
@@ -22,6 +22,7 @@ export interface IngestSummary {
   namespace: string;
   totalChunks: number;
   sources: string[];
+  message?: string;
 }
 
 export interface RetrieverResult {
