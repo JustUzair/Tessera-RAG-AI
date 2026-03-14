@@ -13,7 +13,7 @@ const EnvSchema = z.object({
   OPENAI_MODEL: z.string().optional(),
   GEMINI_MODEL: z.string().optional(),
   GROQ_MODEL: z.string().optional(),
-  RAG_MODEL_PROVIDER: z.enum(["gemini", "openai", "groq"]).default("gemini"),
+  RAG_MODEL_PROVIDER: z.enum(["gemini", "openai"]).default("gemini"),
   MONGODB_ATLAS_URI: z.url().min(1, "MongoDB URI is required"),
   MONGODB_NAME: z.string().min(1, "MongoDB name is required"),
 });
