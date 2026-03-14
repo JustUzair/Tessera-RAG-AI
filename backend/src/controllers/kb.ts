@@ -21,10 +21,6 @@ export const uploadFileHandler = multer({
 export default {
   upload: async (req: Request, res: Response) => {
     try {
-      // Debug what is actually arriving
-      console.log("Request Body:", req.body);
-      console.log("Request Files:", req.files);
-      console.log("Request File:", req.file);
       const namespace = "default";
       if (!req.file) {
         return res.status(400).json({ ok: false, message: "No file uploaded" });
