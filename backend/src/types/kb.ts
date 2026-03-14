@@ -1,3 +1,5 @@
+import { Document } from "@langchain/core/documents";
+
 export interface KBChunk {
   namespace: string; // logical grouping for chunks
   source: string; // source file
@@ -20,4 +22,9 @@ export interface IngestSummary {
   namespace: string;
   totalChunks: number;
   sources: string[];
+}
+
+export interface RetrieverResult {
+  docs: Document[];
+  confidence: number;
 }
