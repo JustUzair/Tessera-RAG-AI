@@ -7,7 +7,7 @@ import {
   mongoClient,
   closeDbConnection,
 } from "./utils/mongo-client.js";
-
+import KBRouter from "./routes/kb.js";
 const DEBUG: boolean = !(process.env.NODE_ENV !== "production") ? true : false;
 const limiter = rateLimit({
   limit: 10,
@@ -63,8 +63,7 @@ app.use(
   }),
 );
 
-// app.use("/api/v1/search", LCELRouter);
-// app.use("/api/v1/kb", RAG_KB_Router);
+app.use("/api/v1/kb", KBRouter);
 
 // Handling the unhandled routes
 app.all("*", (req, res, next) => {
