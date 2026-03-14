@@ -1,8 +1,8 @@
 import { Collection as MongoDBCollection } from "mongodb";
 import { MongoDBAtlasVectorSearch } from "@langchain/mongodb";
-import { getDb } from "../utils/mongo-client";
-import { env } from "../utils/env";
-import { makeEmbeddingsModel } from "../utils/models";
+import { getDb } from "../utils/mongo-client.js";
+import { env } from "../utils/env.js";
+import { makeEmbeddingsModel } from "../utils/models.js";
 
 const db = getDb();
 let collectionPromise: Promise<MongoDBCollection> | null = null;

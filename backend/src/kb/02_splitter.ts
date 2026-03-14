@@ -1,7 +1,6 @@
 import { Document } from "@langchain/core/documents";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
-
-import { DEFAULT_CHUNK_OVERLAP, DEFAULT_CHUNK_SIZE } from "../types/kb";
+import { DEFAULT_CHUNK_OVERLAP, DEFAULT_CHUNK_SIZE } from "../types/kb.js";
 
 const splitter = new RecursiveCharacterTextSplitter({
   chunkSize: DEFAULT_CHUNK_SIZE,

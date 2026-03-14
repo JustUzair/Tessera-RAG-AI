@@ -1,5 +1,5 @@
 import { Document } from "@langchain/core/documents";
-import { LoadFileArgs, SupportedMime } from "../types/kb";
+import { LoadFileArgs, SupportedMime } from "../types/kb.js";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { TextLoader } from "@langchain/classic/document_loaders/fs/text";
 

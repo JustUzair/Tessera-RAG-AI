@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/index.ts",
+  "type": "module",
   "scripts": {
     "dev": "npx tsc --noEmit && tsx watch src/index.ts",
     "build": "tsup src/index.ts --format esm --clean --minify",
