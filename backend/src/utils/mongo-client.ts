@@ -10,7 +10,7 @@ let isConnected: boolean = false;
 export const mongoClient = new MongoClient(URI, {
   serverApi: {
     version: ServerApiVersion.v1,
-    strict: true,
+    strict: false,
     deprecationErrors: true,
   },
 });

@@ -1,4 +1,5 @@
 import { Document } from "@langchain/core/documents";
+import z from "zod";
 
 export interface KBChunk {
   namespace: string; // logical grouping for chunks
@@ -29,3 +30,10 @@ export interface RetrieverResult {
   docs: Document[];
   confidence: number;
 }
+
+export const UploadFormDataSchema = z.object({
+  namespace: z.string().default("default"),
+  source: z.string().optional().default(""),
+});
+
+export type UploadFormData = z.infer<typeof UploadFormDataSchema>;

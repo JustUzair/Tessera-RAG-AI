@@ -2,9 +2,10 @@ import { NextFunction, Request, Response } from "express";
 import multer from "multer";
 import path from "path";
 import { loadFileAsDocuments } from "../kb/01_loader.js";
-import { SupportedMime } from "../types/kb.js";
+import { SupportedMime, UploadFormDataSchema } from "../types/kb.js";
 import { splitAndChunkDocs } from "../kb/02_splitter.js";
 import { ingestDocuments } from "../kb/04_ingest.js";
+import { getKbCollection } from "../kb/03_vector_store.js";
 
 // No more diskStorage, no uploadPath, no fs.mkdirSync
 export const uploadFileHandler = multer({
@@ -21,7 +22,7 @@ export const uploadFileHandler = multer({
 export default {
   upload: async (req: Request, res: Response) => {
     try {
-      const namespace = "default";
+      const { namespace, source } = UploadFormDataSchema.parse(req.body);
       if (!req.file) {
         return res.status(400).json({ ok: false, message: "No file uploaded" });
       }
@@ -36,7 +37,7 @@ export default {
       const rawDocs = await loadFileAsDocuments({
         buffer,
         mimeType: mimeType as SupportedMime,
-        originalName,
+        originalName: `${source.length > 0 ? source + "-" : ""}${originalName}`,
       });
 
       if (!rawDocs.length) {
@@ -72,4 +73,9 @@ export default {
 
   ingest: async (req: Request, res: Response) => {},
   uploadFileHandler,
+  listNamespaces: async (req: Request, res: Response) => {
+    const collection = await getKbCollection();
+    const namespaces = await collection.distinct("namespace");
+    return res.status(200).json({ ok: true, namespaces });
+  },
 };
