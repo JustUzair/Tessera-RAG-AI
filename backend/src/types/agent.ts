@@ -1,4 +1,5 @@
 import z from "zod";
+import { env } from "../utils/env.js";
 
 export const AgentResponseSchema = z.object({
   answer: z.string(),
@@ -13,3 +14,19 @@ export const AgentResponseSchema = z.object({
 });
 
 export type AgentResponse = z.infer<typeof AgentResponseSchema>;
+
+export type ChatRole = "user" | "assistant";
+
+export interface ChatMessage {
+  role: ChatRole;
+  content: String;
+  ts?: Date;
+}
+export interface ConversationDoc {
+  threadId: string;
+  messages: ChatMessage[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export const ConversationCollection = env.MONGODB_CONVERSATION_COLLECTION_NAME;
