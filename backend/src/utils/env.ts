@@ -16,13 +16,16 @@ const EnvSchema = z.object({
   RAG_MODEL_PROVIDER: z.enum(["gemini", "openai"]).default("gemini"),
   MONGODB_ATLAS_URI: z.url().min(1, "MongoDB URI is required"),
   MONGODB_NAME: z.string().min(1, "MongoDB name is required"),
-  MONGODB_COLLECTION_NAME: z
+  MONGODB_CHUNK_STORE_COLLECTION_NAME: z
     .string()
-    .min(1, "MongoDB collection name is required"),
+    .min(1, "MongoDB chunk store collection name is required"),
   MONGODB_INDEX_NAME: z.string().min(1, "MongoDB index name is required"),
   MONGODB_KB_CACHE_COLLECTION_NAME: z
     .string()
     .min(1, "MongoDB KB cache collection is required"),
+  MONGODB_CONVERSATION_COLLECTION_NAME: z
+    .string()
+    .min(1, "MongoDB conversation collection is required"),
 });
 
 const parsed = EnvSchema.safeParse(process.env);

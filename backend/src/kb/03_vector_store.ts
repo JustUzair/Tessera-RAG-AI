@@ -17,7 +17,7 @@ let vectorStorePromise: Promise<MongoDBAtlasVectorSearch> | null = null;
 export async function getKbCollection(): Promise<MongoDBCollection> {
   if (!collectionPromise) {
     collectionPromise = (async () => {
-      const collection = db.collection(env.MONGODB_COLLECTION_NAME);
+      const collection = db.collection(env.MONGODB_CHUNK_STORE_COLLECTION_NAME);
       // ── Dedup lookup index ──
       await collection.createIndex(
         { "metadata.namespace": 1, "metadata.source": 1 },
