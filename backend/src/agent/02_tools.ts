@@ -11,7 +11,7 @@ export const KBSearchTool = tool(
     question: string;
     namespace: string;
   }) => {
-    console.log("kb_search called with:", { question, namespace }); // ← add this
+    // console.log("kb_search called with:", { question, namespace }); // ← add this
     const { confidence, docs } = await retrieveRelevantChunks(
       question,
       namespace,
@@ -33,8 +33,8 @@ export const KBSearchTool = tool(
           ? await summarizeMarkdown(raw)
           : raw;
 
-        console.log(`RAW: `, raw, "\n\n");
-        console.log(`Readable`, readable, "\n\n");
+        // console.log(`RAW: `, raw, "\n\n");
+        // console.log(`Readable`, readable, "\n\n");
         return {
           source,
           chunkId,
