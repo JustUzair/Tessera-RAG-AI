@@ -3,24 +3,58 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { DottedGlowBackground } from "../ui/dotted-glow-background";
 
 // Must be dynamic — Spline uses browser APIs
 const Spline = dynamic(() => import("@splinetool/react-spline"), {
   ssr: false,
 });
 
-export default function SplineScene({ onLoad }: { onLoad?: () => void }) {
+export default function SplineScene() {
   return (
     <motion.div className="relative h-[480px] lg:h-[600px] w-full">
-      <iframe
-        src={process.env.NEXT_PUBLIC_SPLINE_URL}
-        className="{make beautifications here}"
-        width="100%"
-        height="100%"
-      ></iframe>
+      {/* Outer glow ring — dark mode only */}
+      <div
+        className="absolute inset-0 rounded-3xl
+                      dark:shadow-[0_0_80px_-10px_rgba(212,168,75,0.18)]
+                      dark:ring-1 dark:ring-accent/10"
+      />
 
-      {/* Covers the bottom-right watermark */}
-      <div className="absolute bottom-2 right-0 w-40 h-12 bg-bg z-10 rounded-tl-lg dark:bg-black" />
+      {/* Iframe container */}
+      <div className="absolute inset-0 rounded-3xl overflow-hidden">
+        <iframe
+          src={process.env.NEXT_PUBLIC_SPLINE_URL}
+          width="100%"
+          height="100%"
+          className="border-0"
+          style={{ display: "block" }}
+        />
+
+        {/* Watermark cover — hardcoded black since iframe bg is always black */}
+        <div className="absolute bottom-0 right-0 w-48 h-14 z-20 bg-black" />
+
+        {/* Edge fades — dark mode only, fading from black (iframe bg) */}
+        <div
+          className="absolute inset-x-0 top-0 h-16 pointer-events-none z-10
+                        hidden dark:block
+                        bg-gradient-to-b from-[#070711] to-transparent"
+        />
+        <div
+          className="absolute inset-x-0 bottom-0 h-20 pointer-events-none z-10
+                        hidden dark:block
+                        bg-gradient-to-t from-[#070711] to-transparent"
+        />
+        <div
+          className="absolute inset-y-0 left-0 w-12 pointer-events-none z-10
+                        hidden dark:block
+                        bg-gradient-to-r from-[#070711] to-transparent"
+        />
+        <div
+          className="absolute inset-y-0 right-0 w-12 pointer-events-none z-10
+                        hidden dark:block
+                        bg-gradient-to-l from-[#070711] to-transparent"
+        />
+      </div>
     </motion.div>
   );
 }
@@ -29,13 +63,24 @@ const WORDS = ["documents,", "assembled", "into", "answers."];
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* ── Background ──────────────────────────────────── */}
-      <div className="absolute inset-0 dot-grid opacity-40 dark:opacity-100" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_-5%,rgba(212,168,75,0.13),transparent_65%)]" />
-      {/* Animated glow blobs */}
-      <div className="absolute top-1/3 -left-1/4 w-[500px] aspect-square rounded-full bg-accent/5 blur-[120px] animate-float-a" />
-      <div className="absolute bottom-0 -right-1/4 w-[400px] aspect-square rounded-full bg-accent/4 blur-[100px] animate-float-b" />
+      {/* Canvas dot grid — replaces the static CSS dot-grid */}
+      <DottedGlowBackground
+        className="pointer-events-none opacity-40 dark:opacity-100"
+        gap={28}
+        radius={1.6}
+        opacity={1}
+        backgroundOpacity={0}
+        colorLightVar="--color-neutral-500"
+        glowColorLightVar="--color-neutral-600"
+        colorDarkVar="--color-neutral-500"
+        glowColorDarkVar="--color-amber-600"
+        speedMin={0.3}
+        speedMax={1.4}
+        speedScale={1}
+      />
 
+      {/* Gold radial glow stays — it's CSS, not the dot grid */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_-5%,rgba(212,168,75,0.13),transparent_65%)]" />
       {/* ── Content grid ────────────────────────────────── */}
       <div
         className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full
@@ -121,7 +166,8 @@ export function Hero() {
             </Link>
             <a
               href="#how-it-works"
-              className="text-sm text-muted hover:text-foreground transition-colors"
+              className="text-sm text-muted hover:text-foreground transition-colors px-6 py-2.5 rounded-full
+              backdrop-blur border-2 border-accent"
             >
               See how it works →
             </a>
