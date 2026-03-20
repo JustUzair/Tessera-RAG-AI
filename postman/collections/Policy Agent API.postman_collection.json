@@ -1,0 +1,184 @@
+{
+  "info": {
+    "_postman_id": "665914f1-cf21-4a72-953a-91a3588a5c11",
+    "name": "Policy Agent API",
+    "description": "API collection for the Policy Agent with Vector DB, includes Knowledge Base (KB) and Agent endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Knowledge Base (KB)",
+      "item": [
+        {
+          "name": "GET /api/v1/kb/namespaces",
+          "id": "7e9899fb-64ba-4fc9-aec6-849d8f9a4700",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/kb/namespaces",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "kb",
+                "namespaces"
+              ]
+            },
+            "description": "List all available namespaces in the knowledge base"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/v1/kb/upload",
+          "id": "81228d9f-5115-4fff-bc62-36d9e43e1fdc",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [
+                    ""
+                  ]
+                },
+                {
+                  "key": "namespace",
+                  "type": "text",
+                  "value": "default"
+                },
+                {
+                  "key": "source",
+                  "type": "text",
+                  "value": "policy-docs"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/kb/upload",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "kb",
+                "upload"
+              ]
+            },
+            "description": "Upload a file (PDF, TXT, or MD) to the knowledge base"
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/v1/kb/ingest",
+          "id": "399b5c95-eb3b-4388-b8ab-4641bfaa7e74",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/kb/ingest",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "kb",
+                "ingest"
+              ]
+            },
+            "description": "Ingest documents into the knowledge base"
+          },
+          "response": []
+        }
+      ],
+      "id": "e8192c1d-ba30-4f00-88b9-9a8bab8a3e8d"
+    },
+    {
+      "name": "Agent",
+      "item": [
+        {
+          "name": "POST /api/v1/agent/chat",
+          "id": "1eb05ff1-ef76-40b8-b780-d92278ab6e39",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"What is the policy on...\",\n  \"namespace\": \"default\",\n  \"threadId\": \"optional-thread-id\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/agent/chat",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "agent",
+                "chat"
+              ]
+            },
+            "description": "Send a message to the policy agent and get a response with citations"
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/v1/agent/history/:threadId",
+          "id": "953e619d-cbcf-4c94-8d58-7dfd2e098858",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/agent/history/{{threadId}}?limit=20&skip=0",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "agent",
+                "history",
+                "{{threadId}}"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Maximum number of records to return (max 50)"
+                },
+                {
+                  "key": "skip",
+                  "value": "0",
+                  "description": "Number of records to skip for pagination"
+                }
+              ]
+            },
+            "description": "Get chat history for a specific thread with pagination"
+          },
+          "response": []
+        }
+      ],
+      "id": "d7280775-8f00-4520-8a3b-d7732dfa5087"
+    }
+  ],
+  "variable": [
+    {
+      "id": "3ca06ea7-abb9-491a-9f64-9f8634b3703b",
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    }
+  ]
+}
